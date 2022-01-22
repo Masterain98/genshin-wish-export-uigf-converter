@@ -13,3 +13,11 @@ A Python tool to convert genshin-wish-expoert data to UIGF format
 1. 运行程序
 2. 拖入`genshin-wish-expoert`导出的Excel文件，或者手动输入该文件的路径（同目录下只需输入该文件的文件名）
 3. 等待程序运行完成
+
+![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/how_to_use.gif?raw=true)
+
+## 截图
+
+![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/screenshot1.png?raw=true)
+
+![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/screenshot2.png?raw=true)
