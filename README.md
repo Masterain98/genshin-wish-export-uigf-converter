@@ -1,4 +1,4 @@
-# genshin-wish-expoert-uigf-converter
+# genshin-wish-export-uigf-converter
 A Python tool to convert genshin-wish-expoert data to UIGF format
 
 将 [genshin-wish-expoert](https://github.com/biuuu/genshin-wish-export) 的数据转化为 [UIGF](https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat) 格式
