@@ -4,6 +4,9 @@ import pandas as pd
 def converter(fileName, user_uid):
     print("Converting " + fileName)
 
+    # Debug variable only used for dev purpose
+    debug = False
+
     # Generate DataFrame
     df1 = pd.read_excel(fileName, sheet_name='角色活动祈愿')
     df2 = pd.read_excel(fileName, sheet_name='武器活动祈愿')
@@ -20,10 +23,26 @@ def converter(fileName, user_uid):
     df4.rename(columns={'时间': 'time', '名称': 'name', '类别': 'item_type', '星级': 'rank_type',
                         '总次数': 'total_count', '保底内': 'pity_count', '备注': 'notes'}, inplace=True)
 
+    has_notes_column = False
+    for column in df1.columns:
+        if column == "notes":
+            has_notes_column = True
+            if debug:
+                print("Notes column found")
+    if not has_notes_column:
+        print("导出的Excel可能不是来源于最新版Genshin Wish Export，将使用有限的数据进行转换...")
+        if debug:
+            print("Notes column not found")
+
     # Modify DF1
     # Add `gacha_type`
-    df1.loc[df1.notes == '祈愿2', 'gacha_type'] = '400'
-    df1.loc[df1.notes.apply(lambda x: True if str(x) == 'nan' else False), 'gacha_type'] = '301'
+    if has_notes_column:
+        # Apply corresponding gacha_type for each banner
+        df1.loc[df1.notes == '祈愿2', 'gacha_type'] = '400'
+        df1.loc[df1.notes.apply(lambda x: True if str(x) == 'nan' else False), 'gacha_type'] = '301'
+    else:
+        # Apply 301 for all gacha_type
+        df1['gacha_type'] = '301'
     # Add `uigf_gacha_type`
     df1['uigf_gacha_type'] = '301'
     # Add `lang`
@@ -31,28 +50,32 @@ def converter(fileName, user_uid):
     # Add `uid`
     df1['uid'] = user_uid
     # Drop `notes` column
-    df1.drop(columns='notes', inplace=True)
+    if has_notes_column:
+        df1.drop(columns='notes', inplace=True)
 
     # Modify DF2
     df2['gacha_type'] = 302
     df2['uigf_gacha_type'] = 302
     df2['uid'] = user_uid
     df2['lang'] = 'zh_cn'
-    df2.drop(columns='notes', inplace=True)
+    if has_notes_column:
+        df2.drop(columns='notes', inplace=True)
 
     # Modify DF3
     df3['uid'] = user_uid
     df3['lang'] = 'zh_cn'
     df3['gacha_type'] = 200
     df3['uigf_gacha_type'] = 200
-    df3.drop(columns='notes', inplace=True)
+    if has_notes_column:
+        df3.drop(columns='notes', inplace=True)
 
     # Modify DF4
     df4['uid'] = user_uid
     df4['lang'] = 'zh_cn'
     df4['gacha_type'] = 100
     df4['uigf_gacha_type'] = 100
-    df4.drop(columns='notes', inplace=True)
+    if has_notes_column:
+        df4.drop(columns='notes', inplace=True)
 
     # Merge DF
     MergedDF_list = [df1, df2, df3, df4]
