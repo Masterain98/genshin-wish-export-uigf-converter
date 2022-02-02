@@ -64,7 +64,7 @@ def converter(fileName, user_uid):
     MergedDF.sort_values(by=['time', 'total_count'], ascending=(True, True), inplace=True)
 
     # Generate ID
-    firstID = 1612303100000000000 - MergedDF.shape[0]
+    firstID = 1012303100000000000 - MergedDF.shape[0]
     MergedDF['id'] = firstID + MergedDF.index
 
     # Add `count` and `item_id` column
