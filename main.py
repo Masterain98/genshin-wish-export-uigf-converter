@@ -96,6 +96,13 @@ def converter(fileName, user_uid):
 
 
 if __name__ == '__main__':
+    print("=" * 20)
+    print("GWE Excel UIGF Converter")
+    print("=" * 20)
+    print("本工具用于Genshin Wish Export导出的Excel向UIGF格式转化")
+    print("使用说明请见压缩包内的READ.ME文件或Github页面")
+    print("https://github.com/Masterain98/genshin-wish-export-uigf-converter")
+    print("="*20)
     original_xlsx_name = input("请输入原始Excel文件路径：")
     user_uid_input = input("请输入UID：")
     converter(original_xlsx_name, user_uid_input)
