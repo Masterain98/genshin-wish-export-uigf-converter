@@ -5,7 +5,7 @@ A Python tool to convert genshin-wish-expoert data to UIGF format
 
 ## ID生成
 
-- 第一次祈愿的ID记为 `1612303100000000000 - 记录的总祈愿次数`
+- 第一次祈愿的ID记为 `1012303100000000000 - 记录的总祈愿次数`
 - 此后每条祈愿记录ID顺次`+1`
 
 ## 使用方法
