@@ -1,8 +1,9 @@
+from datetime import datetime, timezone, timedelta
 import pandas as pd
 
 
 def converter(fileName, user_uid):
-    print("Converting " + fileName)
+    print("正在转换文件： " + fileName)
 
     # Debug variable only used for dev purpose
     debug = False
@@ -113,6 +114,26 @@ def converter(fileName, user_uid):
     MergedDF['uid'] = MergedDF['uid'].astype(str)
     MergedDF['uigf_gacha_type'] = MergedDF['uigf_gacha_type'].astype(str)
 
+    # Delete Recent 6 Months Wish History (CST Time)
+    if six_month_skip == 'y':
+        SHA_TZ = timezone(
+            timedelta(hours=8),
+            name='Asia/Shanghai',
+        )
+        utc_now = datetime.utcnow().replace(tzinfo=timezone.utc)
+        currentCST = utc_now.astimezone(SHA_TZ).replace(tzinfo=None)
+        pastSixMonthCST = currentCST + (timedelta(days=-180))
+        print("当前时刻180天前的北京时间为：" + str(pastSixMonthCST))
+        print("该时间后的记录已放弃，你可以直接使用新的祈愿导出工具合并记录")
+        print("完成合并后请仔细该时间点前后的祈愿记录是否有丢失/重复的情况")
+        if debug:
+            print(datetime.fromisoformat(MergedDF.iloc[0]['time']))
+            print(datetime.fromisoformat(MergedDF.iloc[0]['time']) > pastSixMonthCST)
+            MergedDF.loc[MergedDF.time.apply(lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False), 'PastSixMonth'] = 'True'
+        MergedDF.drop(MergedDF[MergedDF.time.apply(lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False)].index, inplace= True)
+    else:
+        print("导出的祈愿记录包含了近6个月祈愿记录，请注意在未来可能出现记录重复的问题")
+
     # Output to file
     new_file_name = "uigf_" + str(user_uid) + ".xlsx"
     MergedDF.to_excel(new_file_name, sheet_name='原始数据', index=False)
@@ -121,7 +142,7 @@ def converter(fileName, user_uid):
 if __name__ == '__main__':
     print("=" * 20)
     print("GWE Excel UIGF Converter")
-    print("版本：1.3")
+    print("版本：1.4")
     print("=" * 20)
     print("本工具用于Genshin Wish Export导出的Excel向UIGF格式转化")
     print("使用说明请见压缩包内的READ.ME文件或Github页面")
@@ -129,5 +150,8 @@ if __name__ == '__main__':
     print("="*20)
     original_xlsx_name = input("请输入原始Excel文件路径：")
     user_uid_input = input("请输入UID：")
+    six_month_skip = input("是否放弃导出近6个月祈愿记录 (Y/N)：").lower()
+    while six_month_skip != "y" and six_month_skip != "n":
+        six_month_skip = input("是否放弃导出近6个月祈愿记录 (Y/N)：").lower()
     converter(original_xlsx_name, user_uid_input)
-    input("Program ended...")
+    input("Excel转换已完成，按任意键退出...")
