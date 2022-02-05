@@ -13,15 +13,15 @@ A Python tool to convert genshin-wish-expoert data to UIGF format
 1. 运行程序
 2. 拖入`genshin-wish-expoert`导出的Excel文件，或者手动输入该文件的路径（同目录下只需输入该文件的文件名）
 3. 输入你的游戏 UID
-4. 选择是否放弃近6个月的祈愿记录
-   1. 如果不放弃，则在使用新的祈愿导出工具时会出现祈愿记录重复的情况
-   2. 如果放弃，请在使用新的祈愿导出工具时获取全部祈愿记录，并手动检查对应时间点前后是否有数据重复/丢失
-5. 等待程序运行完成
+4. 1. 选择是否放弃近6个月的祈愿记录**（建议放弃）**
+      1. 如果不放弃，则在使用新的祈愿导出工具时会出现祈愿记录重复的情况
+      2. 如果放弃，6个月内的数据可以由新使用的祈愿导出工具重新从原神服务器获取
+5. 等待程序运行完成，导出文件名为`uigf_游戏UID.xlsx`
 
-![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/how_to_use.gif?raw=true)
+![](how-to-use.gif)
 
 ## 截图
 
-![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/screenshot1.png?raw=true)
+![](screenshot1.png)
 
-![](https://github.com/Masterain98/genshin-wish-expoert-uigf-converter/blob/main/screenshot2.png?raw=true)
+![](screenshot2.png)

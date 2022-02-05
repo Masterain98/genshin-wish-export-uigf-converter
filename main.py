@@ -3,10 +3,14 @@ import pandas as pd
 
 
 def converter(fileName, user_uid):
-    print("正在转换文件： " + fileName)
-
     # Debug variable only used for dev purpose
     debug = False
+
+    print("正在转换文件： " + fileName)
+    if fileName[0] == "\"":
+        fileName = fileName.replace("\"", "")
+        if debug:
+            print("New file name: " + fileName)
 
     # Generate DataFrame
     df1 = pd.read_excel(fileName, sheet_name='角色活动祈愿')
@@ -100,8 +104,9 @@ def converter(fileName, user_uid):
     MergedDF.drop(columns='pity_count', inplace=True)
 
     # Resort Columns
-    MergedDF = MergedDF[['count', 'gacha_type', 'id', 'item_id', 'item_type', 'lang', 'name', 'rank_type', 'time', 'uid',
-                   'uigf_gacha_type']]
+    MergedDF = MergedDF[
+        ['count', 'gacha_type', 'id', 'item_id', 'item_type', 'lang', 'name', 'rank_type', 'time', 'uid',
+         'uigf_gacha_type']]
 
     # Reset all cell data type to string
     MergedDF['count'] = MergedDF['count'].astype(str)
@@ -129,8 +134,10 @@ def converter(fileName, user_uid):
         if debug:
             print(datetime.fromisoformat(MergedDF.iloc[0]['time']))
             print(datetime.fromisoformat(MergedDF.iloc[0]['time']) > pastSixMonthCST)
-            MergedDF.loc[MergedDF.time.apply(lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False), 'PastSixMonth'] = 'True'
-        MergedDF.drop(MergedDF[MergedDF.time.apply(lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False)].index, inplace= True)
+            MergedDF.loc[MergedDF.time.apply(
+                lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False), 'PastSixMonth'] = 'True'
+        MergedDF.drop(MergedDF[MergedDF.time.apply(
+            lambda x: True if datetime.fromisoformat(x) > pastSixMonthCST else False)].index, inplace=True)
     else:
         print("导出的祈愿记录包含了近6个月祈愿记录，请注意在未来可能出现记录重复的问题")
 
@@ -141,17 +148,21 @@ def converter(fileName, user_uid):
 
 if __name__ == '__main__':
     print("=" * 20)
-    print("GWE Excel UIGF Converter")
-    print("版本：1.4")
+    print("Genshin Wish Export UIGF Converter")
+    print("版本：1.5")
+    print("发布于：https://github.com/Masterain98/genshin-wish-export-uigf-converter")
     print("=" * 20)
     print("本工具用于Genshin Wish Export导出的Excel向UIGF格式转化")
-    print("使用说明请见压缩包内的READ.ME文件或Github页面")
-    print("https://github.com/Masterain98/genshin-wish-export-uigf-converter")
-    print("="*20)
+    print("本目录下README.md为使用指南")
+    print("完整使用方法请阅读：https://sgdocs.irain.in/FAQ/transfer-from-other-wish-export.html")
+    print("=" * 20)
     original_xlsx_name = input("请输入原始Excel文件路径：")
     user_uid_input = input("请输入UID：")
+    print("\n" + "*"*5 + " [强烈建议放弃] 近6个月祈愿数据 " + "*"*5)
+    print("*" * 5 + " 原因请读取说明文档 " + "*" * 5)
     six_month_skip = input("是否放弃导出近6个月祈愿记录 (Y/N)：").lower()
     while six_month_skip != "y" and six_month_skip != "n":
         six_month_skip = input("是否放弃导出近6个月祈愿记录 (Y/N)：").lower()
+    print("=" * 20)
     converter(original_xlsx_name, user_uid_input)
     input("Excel转换已完成，按任意键退出...")
