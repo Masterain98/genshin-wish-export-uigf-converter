@@ -3,6 +3,9 @@ A Python tool to convert genshin-wish-expoert data to UIGF format
 
 将 [genshin-wish-expoert](https://github.com/biuuu/genshin-wish-export) 的数据转化为 [UIGF](https://github.com/DGP-Studio/Snap.Genshin/wiki/StandardFormat) 格式
 
+## 更新
+2022/02/06 后 [genshin-wish-expoert](https://github.com/biuuu/genshin-wish-export) 已支持正确导出 UIGF Json 格式的记录。你可以在主程序设置中直接导出，而不需要其它如此库的第三方工具。
+
 ## ID生成
 
 - 第一次祈愿的ID记为 `1012303100000000000 - 记录的总祈愿次数`
