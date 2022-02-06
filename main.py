@@ -149,7 +149,7 @@ def converter(fileName, user_uid):
 if __name__ == '__main__':
     print("=" * 20)
     print("Genshin Wish Export UIGF Converter")
-    print("版本：1.5")
+    print("版本：1.6")
     print("发布于：https://github.com/Masterain98/genshin-wish-export-uigf-converter")
     print("=" * 20)
     print("本工具用于Genshin Wish Export导出的Excel向UIGF格式转化")
@@ -164,5 +164,11 @@ if __name__ == '__main__':
     while six_month_skip != "y" and six_month_skip != "n":
         six_month_skip = input("是否放弃导出近6个月祈愿记录 (Y/N)：").lower()
     print("=" * 20)
-    converter(original_xlsx_name, user_uid_input)
-    input("Excel转换已完成，按任意键退出...")
+    try:
+        converter(original_xlsx_name, user_uid_input)
+        input("Excel转换已结束，按任意键退出...")
+    except FileNotFoundError:
+        input("文件名错误，请尝试将原始Excel修改为较为简单的名称...")
+    except Exception as err:
+        print("主程序发生意外错误，请联系开发者")
+        input(err)
